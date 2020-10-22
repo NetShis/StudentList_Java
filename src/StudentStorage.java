@@ -10,6 +10,9 @@ public class StudentStorage {
     public void addStudent(String data) {
         String[] components = data.split("\\s+");
         String name = components[0] + " " + components[1];
+        components[3] = "+" + components[3].replaceAll("[^0-9]", "");
+        if (components[3].length() != 12) throw new IllegalArgumentException("Номер телефона должен состоять из цифр");
+        if (!components[2].contains("@")) throw new IllegalArgumentException("email должен содержать знак @");
         storage.put(name, new Student(name, components[3], components[2]));
     }
 
@@ -18,6 +21,7 @@ public class StudentStorage {
     }
 
     public void removeStudent(String name) {
+        if (!storage.containsKey(name)) throw new IllegalArgumentException("Нет такого имени для удаления");
         storage.remove(name);
     }
 
